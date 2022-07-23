@@ -2,12 +2,13 @@ import axios from 'axios';
 
 const BASE = 'https://strangers-things.herokuapp.com/api/2206-ftb-et-web-ft-b'
 
-export async function getUsers() {
+export async function getPosts() {
   try {
     const {
       data
-    } = await axios.get(`${ BASE }/users`);
-    return data;
+    } = await axios.get(`${ BASE }/posts`);
+    console.log("this is the data from get Posts" , data.data)
+    return data.data;
   } catch (error) {
     throw error;
   }
