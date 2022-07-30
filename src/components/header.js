@@ -33,12 +33,14 @@ console.log("this is my user list", userList)
     <header>
       <h1>Welcome to Stranger's Things</h1>
       <form className="user-select" onSubmit={handleSubmit}>
-        currentUser ?
         <NavLink to="/posts">
           POSTS
         </NavLink>
         <NavLink to="/todos">
           TODOS
+        </NavLink>
+        <NavLink to="/register">
+          REGISTER
         </NavLink>
         <button onClick={handleUserLogout}>
           LOG OUT, {currentUser.username}

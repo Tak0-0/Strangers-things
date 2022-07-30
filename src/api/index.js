@@ -35,3 +35,26 @@ export async function getTodosByUser(userId) {
     throw error;
   }
 }
+
+export async function registerUser(userName, userPassword){
+try {
+  const response = await fetch('https://strangers-things.herokuapp.com/api/2206-ftb-et-web-ft-b/users/register', {
+  method: "POST",
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    user: {
+      username: userName,
+      password: userPassword
+    }
+  })
+})
+
+const user = await response.json()
+console.log(user)
+
+} catch (error) {
+  throw(error)
+}
+}

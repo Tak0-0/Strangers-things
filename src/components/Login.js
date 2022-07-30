@@ -1,4 +1,7 @@
-const Login = () => {
+import React from "react"
+
+const Login = () => 
+{
 return(
 <h2
 style={{

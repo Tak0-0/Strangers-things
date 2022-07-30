@@ -6,18 +6,20 @@ import {
   Route,
   Routes,
   Navigate,
+  Link,
 } from "react-router-dom";
 import Login from "./components/Login"
 import Header from "./components/header";
-import UserPosts from "./components";
-import UserTodos from "./components";
+import {UserPosts} from "./components";
+import UserTodos from "./components/userTodos";
+import Register from "./components/Register"
 import { getPostsByUser, getTodosByUser } from "./api";
 import { Axios } from "axios";
 const BASE = 'https://strangers-things.herokuapp.com/api/2206-ftb-et-web-ft-b'
 
 const App = () => {
   const [userList, setUserList] = useState([]);
-  const [currentUser, setCurrentUser] = useState([]);
+  const [currentUser, setCurrentUser] = useState({});
   const [userPosts, setUserPosts] = useState([]);
   const [userTodos, setUserTodos] = useState([]);
 
@@ -28,8 +30,7 @@ const App = () => {
           data
         } = await axios.get(`${ BASE }/posts`);
         console.log("this is the data from get Posts" , data.data)
-        return data.data;
-        setUserPosts(getPosts)
+        setUserPosts(data.data.posts)
       } catch (error) {
         throw error;
       }
@@ -57,26 +58,26 @@ console.log(userPosts)
   //     });
   // }, []);
 
-  useEffect(() => {
-    if (!currentUser) {
-      setUserPosts([]);
-      setUserTodos([]);
-      return;
-    }
+  // useEffect(() => {
+  //   if (!currentUser) {
+  //     setUserPosts([]);
+  //     setUserTodos([]);
+  //     return;
+  //   }
 
-    getPostsByUser(currentUser.id).then((posts) => {
-      setUserPosts(posts);
-    });
+  //   getPostsByUser(currentUser.id).then((posts) => {
+  //     setUserPosts(posts);
+  //   });
 
-    getTodosByUser(currentUser.id)
-      .then((todos) => {
-        setUserTodos(todos);
-      })
+  //   getTodosByUser(currentUser.id)
+  //     .then((todos) => {
+  //       setUserTodos(todos);
+  //     })
 
-      .catch((error) => {
-        console.log(error);
-      });
-  }, [currentUser]);
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, [currentUser]);
 
   return (
     // <Router>
@@ -105,10 +106,18 @@ console.log(userPosts)
                           </Routes>
           </>
         ) : ( */}
+
+           
+          
+
           <>
             <Routes>
-              <Route path="/" element={<Login/>}/>
-              <Route path="/posts" element={<UserPosts userPosts={userPosts} currentUser={currentUser}/>}/>
+              <Route path="/register" element={<Register/>}/>
+              <Route path="/todos" element = {<UserTodos/>}/>
+              <Route path="/login" element={<Login/>}/>
+              <Route path="/posts" element={<UserPosts
+              userPosts={userPosts} currentUser={currentUser} 
+              />}/>
             </Routes>
           </>
         {/* )} */}
