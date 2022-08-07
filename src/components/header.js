@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import "./header.css";
 
-const Header = ({ currentUser, setCurrentUser, userList }) => {
+const Header = ({ currentUser, setCurrentUser, userList, userLogin }) => {
   const [selectedUser, setSelectedUser] = useState([]);
   // const [currentUser, setCurrentUser] = useState([]);
-
+ 
   useEffect(() => {
     setSelectedUser(userList[0]);
   }, [userList]);
@@ -31,31 +31,27 @@ const Header = ({ currentUser, setCurrentUser, userList }) => {
 console.log("this is my user list", userList)
   return (
     <header>
+      {userLogin ? <p> {userLogin} is currently logged in </p>: null}
       <h1>Welcome to Stranger's Things</h1>
       <form className="user-select" onSubmit={handleSubmit}>
         <NavLink to="/posts">
           POSTS
         </NavLink>
-        <NavLink to="/todos">
-          TODOS
-        </NavLink>
         <NavLink to="/register">
           REGISTER
         </NavLink>
-        <button onClick={handleUserLogout}>
-          LOG OUT, {currentUser.username}
-        </button>
-        :{" "}
+        <NavLink to="/login">LOGIN</NavLink>
+        <NavLink to= "/makepost">MAKE NEW POST</NavLink>
+        {" "}
         {
-          <select onChange={handleSelectChange}>
-            {userList.length && userList.map((user) => (
-              <option key={user.id} value={user.id}>
-                {user.username}
-              </option>
-            ))}
-          </select>
+          // <select onChange={handleSelectChange}>
+          //   {userList.length && userList.map((user) => (
+          //     <option key={user.id} value={user.id}>
+          //       {user.username}
+          //     </option>
+          //   ))}
+          // </select>
         }
-        <button onClick={handleUserLogin}>LOG IN</button>
       </form>
     </header>
   );

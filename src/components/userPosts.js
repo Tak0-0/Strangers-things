@@ -11,22 +11,13 @@ const UserPosts = ({
   return (
     <div className="user-posts">
       <h2>Posts By { currentUser.username }</h2>
-      {userPosts.map(({ id, title, body}) => (
+      {userPosts.map((allposts, id) => (
         <div key={ id } className="post">
-          <h3>{ title }</h3>
-          <p>{ body }</p>
+          <p> { allposts.author.username }</p>
+          <h3>{ allposts.title }</h3>
+          <p>{ allposts.price }</p>
         </div>
       ))}
-
-      {
-        userPosts ? userPosts.map(({id, title, body}) => (
-          <div key={ id } className="post">
-          <h3>{ title }</h3>
-          <p>{ body }</p>
-        </div>
-        )) : <div> Posts failed to load, sorry</div>
-        
-        }
         </div>
   );
 }

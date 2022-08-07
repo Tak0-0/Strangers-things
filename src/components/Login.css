@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Balsamiq+Sans&display=swap');
-
+/* * {border:red solid 2px} */
 header {
   display: flex;
   flex-direction: row;
@@ -58,4 +58,33 @@ header .user-select button {
   color: #333333;
   font-weight: bold;
   font-size: 1em;
+}
+
+.Loginbox{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  
+  padding: 8px 12px;
+  color: #333333;
+  font-weight: bold;
+  font-size: 1em;
+  color: #8ff;
+  background: #333333;
+  margin-right: .5em;
+}
+
+.Logininput {
+ 
+ display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 40%;
+  padding: 8px 12px;
+  color: #333333;
+  font-weight: bold;
+  font-size: 1em;
+  color: #8ff;
+  background: #333333;
+  margin-right: .5em;
 }

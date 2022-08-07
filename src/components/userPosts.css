@@ -3,6 +3,7 @@
 .user-posts {
   padding: 1em;
   font-family: 'Libre Baskerville', serif;
+  background-color: grey;
 }
 
 .user-posts h2 {

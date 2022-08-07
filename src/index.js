@@ -10,10 +10,8 @@ import {
 } from "react-router-dom";
 import Login from "./components/Login"
 import Header from "./components/header";
-import {UserPosts} from "./components";
-import UserTodos from "./components/userTodos";
+import {Makepost, UserPosts} from "./components";
 import Register from "./components/Register"
-import { getPostsByUser, getTodosByUser } from "./api";
 import { Axios } from "axios";
 const BASE = 'https://strangers-things.herokuapp.com/api/2206-ftb-et-web-ft-b'
 
@@ -21,7 +19,8 @@ const App = () => {
   const [userList, setUserList] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
   const [userPosts, setUserPosts] = useState([]);
-  const [userTodos, setUserTodos] = useState([]);
+  const [userPassword, setUserPassword] = useState([]);
+  const [userLogin, setUserLogin] = useState([]);
 
   useEffect(() => {
      async function getPosts() {
@@ -47,7 +46,7 @@ const App = () => {
   //       console.error(error)
   //     });
   // }, []);
-console.log(userPosts)
+// console.log(userPosts)
   // useEffect(() => {
   //   getUsers()
   //     .then((users) => {
@@ -61,18 +60,12 @@ console.log(userPosts)
   // useEffect(() => {
   //   if (!currentUser) {
   //     setUserPosts([]);
-  //     setUserTodos([]);
   //     return;
   //   }
 
   //   getPostsByUser(currentUser.id).then((posts) => {
   //     setUserPosts(posts);
   //   });
-
-  //   getTodosByUser(currentUser.id)
-  //     .then((todos) => {
-  //       setUserTodos(todos);
-  //     })
 
   //     .catch((error) => {
   //       console.log(error);
@@ -87,7 +80,7 @@ console.log(userPosts)
     // </Router>
     // currentUser, setCurrentUser, userList
     <Router>
-       <Header currentUser={currentUser} setCurrentUser={setCurrentUser} userList={userList}/>
+       <Header currentUser={currentUser} setCurrentUser={setCurrentUser} userList={userList} userLogin={userLogin} />
         {/* {currentUser ? (
           <>
             <Routes>
@@ -112,9 +105,11 @@ console.log(userPosts)
 
           <>
             <Routes>
+              <Route path="/makepost" element={<Makepost/>}/>
               <Route path="/register" element={<Register/>}/>
-              <Route path="/todos" element = {<UserTodos/>}/>
-              <Route path="/login" element={<Login/>}/>
+              {/* <Route path="/todos" element = {<UserTodos/>}/> */}
+              <Route path="/login" element={<Login 
+              userLogin={userLogin} setUserLogin={setUserLogin} userPassword={userPassword} setUserPassword={setUserPassword}/>}/>
               <Route path="/posts" element={<UserPosts
               userPosts={userPosts} currentUser={currentUser} 
               />}/>
@@ -123,6 +118,7 @@ console.log(userPosts)
         {/* )} */}
     </Router>
   );
+
 };
 
 ReactDOM.render(<App />, document.getElementById("root"));

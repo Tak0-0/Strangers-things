@@ -25,17 +25,6 @@ export async function getPostsByUser(userId) {
   }
 }
 
-export async function getTodosByUser(userId) {
-  try {
-    const {
-      data
-    } = await axios.get(`${ BASE }/users/${ userId }/todos`);
-    return data;
-  } catch (error) {
-    throw error;
-  }
-}
-
 export async function registerUser(userName, userPassword){
 try {
   const response = await fetch('https://strangers-things.herokuapp.com/api/2206-ftb-et-web-ft-b/users/register', {
@@ -51,6 +40,7 @@ try {
   })
 })
 
+
 const user = await response.json()
 console.log(user)
 
@@ -58,3 +48,27 @@ console.log(user)
   throw(error)
 }
 }
+//login
+export async function Login(userName, userPassword){
+  try {
+    const response = await fetch('https://strangers-things.herokuapp.com/api/2206-ftb-et-web-ft-b/', {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      user: {
+        username: userName,
+        password: userPassword
+      }
+    })
+  })
+  
+  
+  const user = await response.json()
+  console.log(user)
+  
+  } catch (error) {
+    throw(error)
+  }
+  }

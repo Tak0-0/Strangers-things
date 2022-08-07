@@ -1,10 +1,10 @@
 import { useState } from "react"
 import { registerUser } from "../api"
 import './Register.css'
-const Register = () => {
+const makepost = () => {
 
-    const [userName, setUserName] = useState("")
-    const [userPassword, setPassword] = useState("")
+    const [price, location, ] = useState("")
+    
 
     function handleSubmit(event){
         event.preventDefault()
@@ -16,9 +16,9 @@ const Register = () => {
           <input type="text" onChange={(event)=>{setUserName(event.target.value)}}></input>
           <input type="text" onChange={(event)=>{setPassword(event.target.value)}}></input>     
 
-        <button type="submit">Register</button>
+        <button type="submit">Post Listing</button>
 
     </form>
     )
     }
-    export default Register
+    export default makepost
