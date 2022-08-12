@@ -72,3 +72,27 @@ export async function Login(userName, userPassword){
     throw(error)
   }
   }
+
+  export async function Makepost(title, description, price, willDeliver, token ){
+
+    fetch('https://strangers-things.herokuapp.com/api/COHORT-NAME/posts', {
+  method: "POST",
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`
+  },
+      body: JSON.stringify({
+      post: {
+      title: title,
+      description: description,
+      price: price,
+      willDeliver: willDeliver,
+      
+    }
+  })
+}).then(response => response.json())
+  .then(result => { 
+    console.log(result);
+  })
+  .catch(console.error);
+  }

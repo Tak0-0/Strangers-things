@@ -10,7 +10,8 @@ import {
 } from "react-router-dom";
 import Login from "./components/Login"
 import Header from "./components/header";
-import {Makepost, UserPosts} from "./components";
+import {UserPosts} from "./components/userPosts.js";
+import {makepost} from "./components/Makepost.js";
 import Register from "./components/Register"
 import { Axios } from "axios";
 const BASE = 'https://strangers-things.herokuapp.com/api/2206-ftb-et-web-ft-b'
@@ -36,41 +37,6 @@ const App = () => {
     }
     getPosts()
   },[]);
-
-  // useEffect(() => {
-  //   getPosts()
-  //     .then((data) => {
-  //       setUserPosts(data.posts);
-  //     })
-  //     .catch((error) => {
-  //       console.error(error)
-  //     });
-  // }, []);
-// console.log(userPosts)
-  // useEffect(() => {
-  //   getUsers()
-  //     .then((users) => {
-  //       setUserList(users);
-  //     })
-  //     .catch((error) => {
-  //       console.error(error)
-  //     });
-  // }, []);
-
-  // useEffect(() => {
-  //   if (!currentUser) {
-  //     setUserPosts([]);
-  //     return;
-  //   }
-
-  //   getPostsByUser(currentUser.id).then((posts) => {
-  //     setUserPosts(posts);
-  //   });
-
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }, [currentUser]);
 
   return (
     // <Router>
@@ -107,7 +73,6 @@ const App = () => {
             <Routes>
               <Route path="/makepost" element={<Makepost/>}/>
               <Route path="/register" element={<Register/>}/>
-              {/* <Route path="/todos" element = {<UserTodos/>}/> */}
               <Route path="/login" element={<Login 
               userLogin={userLogin} setUserLogin={setUserLogin} userPassword={userPassword} setUserPassword={setUserPassword}/>}/>
               <Route path="/posts" element={<UserPosts
