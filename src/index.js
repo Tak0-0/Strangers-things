@@ -8,46 +8,70 @@ import {
   Navigate,
   Link,
 } from "react-router-dom";
-import Login from "./components/Login"
+import Login from "./components/Login";
 import Header from "./components/header";
-import {UserPosts} from "./components/userPosts.js";
-import {makepost} from "./components/Makepost.js";
-import Register from "./components/Register"
+import UserPosts from "./components/userPosts.js";
+import Makepost from "./components/Makepost.js";
+import Register from "./components/Register";
 import { Axios } from "axios";
-const BASE = 'https://strangers-things.herokuapp.com/api/2206-ftb-et-web-ft-b'
+const BASE = "https://strangers-things.herokuapp.com/api/2206-ftb-et-web-ft-b";
 
 const App = () => {
   const [userList, setUserList] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
   const [userPosts, setUserPosts] = useState([]);
   const [userPassword, setUserPassword] = useState([]);
-  const [userLogin, setUserLogin] = useState([]);
+  const [userLogin, setUserLogin] = useState("");
 
   useEffect(() => {
-     async function getPosts() {
+    async function getPosts() {
       try {
-        const {
-          data
-        } = await axios.get(`${ BASE }/posts`);
-        console.log("this is the data from get Posts" , data.data)
-        setUserPosts(data.data.posts)
+        const { data } = await axios.get(`${BASE}/posts`);
+        console.log("this is the data from get Posts", data.data);
+        setUserPosts(data.data.posts);
       } catch (error) {
         throw error;
       }
     }
-    getPosts()
-  },[]);
+    getPosts();
+  }, []);
+
+  useEffect(() => {
+    const temptoken = localStorage.getItem("token");
+    if (temptoken) {
+      const username = temptoken.split("-")[0];
+      const token = temptoken.split("-")[1];
+      setUserLogin(username);
+      const { data } = axios
+        .get(`${BASE}/users/me`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((result) => {
+          console.log("this is my result", result);
+        })
+        .catch(console.error);
+    }
+  }, []);
 
   return (
     // <Router>
     //   <div id="root">
-        // <Header />
+    // <Header />
     //   </div>
     // </Router>
     // currentUser, setCurrentUser, userList
     <Router>
-       <Header currentUser={currentUser} setCurrentUser={setCurrentUser} userList={userList} userLogin={userLogin} />
-        {/* {currentUser ? (
+      <Header
+        currentUser={currentUser}
+        setCurrentUser={setCurrentUser}
+        userList={userList}
+        userLogin={userLogin}
+        setUserLogin={setUserLogin}
+      />
+      {/* {currentUser ? (
           <>
             <Routes>
               <Route path="/posts">
@@ -66,24 +90,32 @@ const App = () => {
           </>
         ) : ( */}
 
-           
-          
-
-          <>
-            <Routes>
-              <Route path="/makepost" element={<Makepost/>}/>
-              <Route path="/register" element={<Register/>}/>
-              <Route path="/login" element={<Login 
-              userLogin={userLogin} setUserLogin={setUserLogin} userPassword={userPassword} setUserPassword={setUserPassword}/>}/>
-              <Route path="/posts" element={<UserPosts
-              userPosts={userPosts} currentUser={currentUser} 
-              />}/>
-            </Routes>
-          </>
-        {/* )} */}
+      <>
+        <Routes>
+          <Route path="/makepost" element={<Makepost />} />
+          <Route path="/register" element={<Register />} />
+          <Route
+            path="/login"
+            element={
+              <Login
+                userLogin={userLogin}
+                setUserLogin={setUserLogin}
+                userPassword={userPassword}
+                setUserPassword={setUserPassword}
+              />
+            }
+          />
+          <Route
+            path="/posts"
+            element={
+              <UserPosts userPosts={userPosts} currentUser={currentUser} />
+            }
+          />
+        </Routes>
+      </>
+      {/* )} */}
     </Router>
   );
-
 };
 
 ReactDOM.render(<App />, document.getElementById("root"));
