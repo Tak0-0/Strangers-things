@@ -12,6 +12,7 @@ import Login from "./components/Login";
 import Header from "./components/header";
 import UserPosts from "./components/userPosts.js";
 import Makepost from "./components/Makepost.js";
+import Editpost from "./components/Editpost.js";
 import Register from "./components/Register";
 import { Axios } from "axios";
 const BASE = "https://strangers-things.herokuapp.com/api/2206-ftb-et-web-ft-b";
@@ -22,7 +23,8 @@ const App = () => {
   const [userPosts, setUserPosts] = useState([]);
   const [userPassword, setUserPassword] = useState([]);
   const [userLogin, setUserLogin] = useState("");
-
+  const [currentToken, setCurrentToken] = useState(null);
+  const [updateReceived, setUpdateReceived] = useState(0);
   useEffect(() => {
     async function getPosts() {
       try {
@@ -34,7 +36,7 @@ const App = () => {
       }
     }
     getPosts();
-  }, []);
+  }, [updateReceived]);
 
   useEffect(() => {
     const temptoken = localStorage.getItem("token");
@@ -42,27 +44,11 @@ const App = () => {
       const username = temptoken.split("-")[0];
       const token = temptoken.split("-")[1];
       setUserLogin(username);
-      const { data } = axios
-        .get(`${BASE}/users/me`, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((result) => {
-          console.log("this is my result", result);
-        })
-        .catch(console.error);
+      setCurrentToken(token);
     }
   }, []);
 
   return (
-    // <Router>
-    //   <div id="root">
-    // <Header />
-    //   </div>
-    // </Router>
-    // currentUser, setCurrentUser, userList
     <Router>
       <Header
         currentUser={currentUser}
@@ -70,29 +56,32 @@ const App = () => {
         userList={userList}
         userLogin={userLogin}
         setUserLogin={setUserLogin}
+        setCurrentToken={setCurrentToken}
       />
-      {/* {currentUser ? (
-          <>
-            <Routes>
-              <Route path="/posts">
-                <UserPosts userPosts={userPosts} currentUser={currentUser} />
-              </Route>
-              <Route exact path="/">
-                <h2
-                  style={{
-                    padding: ".5em",
-                  }}
-                >
-                  Welcome, {currentUser.username}!
-                </h2>
-              </Route>
-                          </Routes>
-          </>
-        ) : ( */}
 
       <>
         <Routes>
-          <Route path="/makepost" element={<Makepost />} />
+          <Route
+            path="/makepost"
+            element={
+              <Makepost
+                updateReceived={updateReceived}
+                setUpdateReceived={setUpdateReceived}
+              />
+            }
+          />
+
+          <Route
+            path="/editpost/:id"
+            element={
+              <Editpost
+                userPosts={userPosts}
+                updateReceived={updateReceived}
+                setUpdateReceived={setUpdateReceived}
+              />
+            }
+          />
+
           <Route path="/register" element={<Register />} />
           <Route
             path="/login"
@@ -102,18 +91,25 @@ const App = () => {
                 setUserLogin={setUserLogin}
                 userPassword={userPassword}
                 setUserPassword={setUserPassword}
+                setCurrentToken={setCurrentToken}
               />
             }
           />
           <Route
             path="/posts"
             element={
-              <UserPosts userPosts={userPosts} currentUser={currentUser} />
+              <UserPosts
+                userPosts={userPosts}
+                currentUser={currentUser}
+                userLogin={userLogin}
+                currentToken={currentToken}
+                updateReceived={updateReceived}
+                setUpdateReceived={setUpdateReceived}
+              />
             }
           />
         </Routes>
       </>
-      {/* )} */}
     </Router>
   );
 };

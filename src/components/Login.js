@@ -2,7 +2,13 @@ import React from "react";
 import { useState } from "react";
 import "./Login.css";
 const BASE = "https://strangers-things.herokuapp.com/api/2206-ftb-et-web-ft-b";
-const Login = ({ userLogin, setUserLogin, userPassword, setUserPassword }) => {
+const Login = ({
+  userLogin,
+  setUserLogin,
+  userPassword,
+  setUserPassword,
+  setCurrentToken,
+}) => {
   console.log(userLogin);
   console.log(userPassword);
   const loginUser = async (event) => {
@@ -26,6 +32,7 @@ const Login = ({ userLogin, setUserLogin, userPassword, setUserPassword }) => {
           "token",
           `${userLogin}-${result.data.token}`
         );
+        setCurrentToken(result.data.token);
         // setUserToken(localStorage.getItem("tokens"));
       })
       .catch(console.error);

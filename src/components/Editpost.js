@@ -1,23 +1,39 @@
-import { useState } from "react";
-// import { Makepost } from "../api"
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+
+// import { Editpost } from "../api"
 import "./Register.css";
 import UserPosts from "./userPosts";
 
-const Makepost = ({ updateReceived, setUpdateReceived }) => {
+const Editpost = ({ updateReceived, setUpdateReceived, userPosts }) => {
+  const { id } = useParams();
   const [post, setPost] = useState({
     title: "",
     description: "",
     price: "",
     willDeliver: false,
   });
+
+  useEffect(() => {
+    const foundPost = userPosts.find((item) => {
+      return item._id === id;
+    });
+    setPost({
+      title: foundPost.title,
+      description: foundPost.description,
+      price: foundPost.price,
+      willDeliver: foundPost.willDeliver,
+    });
+  }, []);
+
   function handleSubmit(event) {
     const temptoken = localStorage.getItem("token");
     const token = temptoken.split("-")[1];
     event.preventDefault();
     fetch(
-      "https://strangers-things.herokuapp.com/api/2206-ftb-et-web-ft-b/posts",
+      `https://strangers-things.herokuapp.com/api/2206-ftb-et-web-ft-b/posts/${id}`,
       {
-        method: "POST",
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -81,4 +97,4 @@ const Makepost = ({ updateReceived, setUpdateReceived }) => {
     </form>
   );
 };
-export default Makepost;
+export default Editpost;

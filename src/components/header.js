@@ -8,6 +8,7 @@ const Header = ({
   userList,
   userLogin,
   setUserLogin,
+  setCurrentToken,
 }) => {
   const [selectedUser, setSelectedUser] = useState([]);
   // const [currentUser, setCurrentUser] = useState([]);
@@ -35,6 +36,7 @@ const Header = ({
     setCurrentUser(null);
     localStorage.removeItem("token");
     setUserLogin("");
+    setCurrentToken(null);
   };
   console.log("this is my user list", userList);
   return (
